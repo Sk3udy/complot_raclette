@@ -19,7 +19,7 @@ int g_height = 1200;
 int g_colorIndex = 0;
 HBRUSH g_hBrush = NULL;
 
-// Pour le dÃ©placement de la fenÃªtre
+// Pour le déplacement de la fenêtre
 static BOOL g_bDragging = FALSE;
 static POINT g_ptOffset;
 
@@ -27,7 +27,7 @@ static POINT g_ptOffset;
 vector<POINT> g_points;
 BOOL g_bDrawing = FALSE;
 
-// Handles pour les contrÃ´les
+// Handles pour les contrôles
 HWND hEdit;
 
 
@@ -47,38 +47,38 @@ HBITMAP hBitmap = (HBITMAP)LoadImage(
 void PaintBitmap(HDC hdc, HBITMAP hBmp) {
     HDC hdcMem = CreateCompatibleDC(hdc);
 
-    // Sauvegarde lâ€™ancien bitmap avant de mettre le nouveau
+    // Sauvegarde l’ancien bitmap avant de mettre le nouveau
     HBITMAP hOldBmp = (HBITMAP)SelectObject(hdcMem, hBmp);
 
     BITMAP bmp;
     GetObject(hBmp, sizeof(BITMAP), &bmp);
 
-    // Copie le bitmap dans la fenÃªtre
+    // Copie le bitmap dans la fenêtre
     BitBlt(hdc, 0, 0, bmp.bmWidth, bmp.bmHeight, hdcMem, 0, 0, SRCCOPY);
 
-    // Restauration de lâ€™ancien bitmap
+    // Restauration de l’ancien bitmap
     SelectObject(hdcMem, hOldBmp);
 
     DeleteDC(hdcMem);
 }
 
-// --- FenÃªtre callback ---
+// --- Fenêtre callback ---
 LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
     switch (msg)
     {
     case WM_CREATE:
         g_hBrush = CreateSolidBrush(RGB(240, 240, 240));
-        SetWindowText(hwnd, _T("FenÃªtre initiale"));
+        SetWindowText(hwnd, _T("Fenêtre initiale"));
 
 
 
-        // CrÃ©er les contrÃ´les (Niveau 4)
+        // Créer les contrôles (Niveau 4)
         hEdit = CreateWindowEx(0, _T("EDIT"), _T(""),
             WS_CHILD | WS_VISIBLE | WS_BORDER,
             20, 20, 200, 25, hwnd, NULL, ((LPCREATESTRUCT)lParam)->hInstance, NULL);
 
-        CreateWindowEx(0, _T("BUTTON"), _T("CrÃ©er"),
+        CreateWindowEx(0, _T("BUTTON"), _T("Créer"),
             WS_CHILD | WS_VISIBLE,
             20, 60, 80, 25, hwnd, (HMENU)ID_BUTTON_CREER, ((LPCREATESTRUCT)lParam)->hInstance, NULL);
 
@@ -117,21 +117,21 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
             BITMAP bmp;
             GetObject(hBitmap, sizeof(BITMAP), &bmp);
 
-            // RÃ©cupÃ¨re la taille de la fenÃªtre
+            // Récupère la taille de la fenêtre
             RECT rc;
             GetClientRect(hwnd, &rc);
 
-            // Ã‰tire lâ€™image pour remplir la fenÃªtre
+            // Étire l’image pour remplir la fenêtre
             SetStretchBltMode(hdc, HALFTONE);
             StretchBlt(
                 hdc,
-                0, 0, rc.right, rc.bottom,   // destination : toute la fenÃªtre
+                0, 0, rc.right, rc.bottom,   // destination : toute la fenêtre
                 hdcMem,
                 0, 0, bmp.bmWidth, bmp.bmHeight, // source : taille originale du BMP
                 SRCCOPY
             );
 
-            // Restaure lâ€™ancien bitmap
+            // Restaure l’ancien bitmap
             SelectObject(hdcMem, hOldBmp);
             DeleteDC(hdcMem);
         }
@@ -175,7 +175,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
         ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
 
         if (GetOpenFileName(&ofn)) {
-            // LibÃ©rer lâ€™ancien bitmap si nÃ©cessaire
+            // Libérer l’ancien bitmap si nécessaire
             if (hBitmap) {
                 DeleteObject(hBitmap);
             }
@@ -191,7 +191,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
                 MessageBox(hwnd, _T("Impossible de charger l'image"), _T("Erreur"), MB_OK);
             }
             else {
-                InvalidateRect(hwnd, NULL, TRUE); // redessiner la fenÃªtre
+                InvalidateRect(hwnd, NULL, TRUE); // redessiner la fenêtre
             }
         }
     }
@@ -216,7 +216,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam)
     return 0;
 }
 
-// --- Point d'entrÃ©e ---
+// --- Point d'entrée ---
 int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     LPSTR lpCmdLine, int nCmdShow)
 {
@@ -232,7 +232,7 @@ int WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance,
     HWND hwnd = CreateWindowEx(
         0,
         wc.lpszClassName,
-        _T("FenÃªtre initiale"),
+        _T("Fenêtre initiale"),
         WS_OVERLAPPEDWINDOW,
         CW_USEDEFAULT, CW_USEDEFAULT,
         g_width, g_height,
